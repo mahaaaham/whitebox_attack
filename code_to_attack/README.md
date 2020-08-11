@@ -1,6 +1,9 @@
+Here is the "original" code of the challenge.
+
 <!-- Only small change are made to make the original code work. -->
 <!-- See the folder attack to have commentary that analyse the code. -->
 <!-- Original README of the challenge is: -->
+
 
 
 # Military grade whitebox
