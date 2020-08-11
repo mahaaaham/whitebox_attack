@@ -1,0 +1,72 @@
+[
+    {
+        "arguments": [
+            "cc",
+            "-c",
+            "-std=c11",
+            "-Wall",
+            "-Wextra",
+            "-I../include",
+            "-g",
+            "block.c"
+        ],
+        "directory": "/home/maha/.git/AES_whitebox/basic_aes/src",
+        "file": "block.c"
+    },
+    {
+        "arguments": [
+            "cc",
+            "-c",
+            "-std=c11",
+            "-Wall",
+            "-Wextra",
+            "-I../include",
+            "-g",
+            "state.c"
+        ],
+        "directory": "/home/maha/.git/AES_whitebox/basic_aes/src",
+        "file": "state.c"
+    },
+    {
+        "arguments": [
+            "cc",
+            "-c",
+            "-std=c11",
+            "-Wall",
+            "-Wextra",
+            "-I../include",
+            "-g",
+            "key.c"
+        ],
+        "directory": "/home/maha/.git/AES_whitebox/basic_aes/src",
+        "file": "key.c"
+    },
+    {
+        "arguments": [
+            "cc",
+            "-c",
+            "-std=c11",
+            "-Wall",
+            "-Wextra",
+            "-I../include",
+            "-g",
+            "aes.c"
+        ],
+        "directory": "/home/maha/.git/AES_whitebox/basic_aes/src",
+        "file": "aes.c"
+    },
+    {
+        "arguments": [
+            "cc",
+            "-c",
+            "-std=c11",
+            "-Wall",
+            "-Wextra",
+            "-I../include",
+            "-g",
+            "cipher.c"
+        ],
+        "directory": "/home/maha/.git/AES_whitebox/basic_aes/src",
+        "file": "cipher.c"
+    }
+]
