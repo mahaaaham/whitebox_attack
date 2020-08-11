@@ -865,7 +865,6 @@ s[41] = byte_error_2; /* mirror state */
 /* one chance on 256 that the medication of the byte is the same for the two!  */
 
 
-printf("apres erreur");
 
 s[19] = (t_717[(s[0] & 0xF0) + ((s[40] >> 4) & 0x0F)] & 0xF0) | (t_717[((s[0] & 0x0F) << 4) + (s[40] & 0x0F)] & 0x0F);
 s[22] = (t_718[(s[41] & 0xF0) + ((s[1] >> 4) & 0x0F)] & 0xF0) | (t_718[((s[41] & 0x0F) << 4) + (s[1] & 0x0F)] & 0x0F);
@@ -936,7 +935,6 @@ s[23] = (t_782[(s[7] & 0xF0) + ((s[24] >> 4) & 0x0F)] & 0xF0) | (t_782[((s[7] & 
 s[23] = t_783[s[23]];
 s[18] = t_784[s[18]];
 
-printf("au milieu, apres erreur");
 
 s[18] = (t_785[(s[16] & 0xF0) + ((s[18] >> 4) & 0x0F)] & 0xF0) | (t_785[((s[16] & 0x0F) << 4) + (s[18] & 0x0F)] & 0x0F);
 s[23] = (t_786[(s[25] & 0xF0) + ((s[23] >> 4) & 0x0F)] & 0xF0) | (t_786[((s[25] & 0x0F) << 4) + (s[23] & 0x0F)] & 0x0F);
@@ -1371,7 +1369,6 @@ s[15] = (t_1194[(s[15] & 0xF0) + ((s[0] >> 4) & 0x0F)] & 0xF0) | (t_1194[((s[15]
 s[26] = t_1195[s[26]];
 s[15] = t_1196[s[15]];
 
-printf("apres milieu, apres erreur");
 
 /* Each byte state[i] is xored with state[(i+1) % 15] and its mirror state
    state[41 - ((i+1)%15)]] (this xor should add nothing if the state/mirror-state are identical) */
@@ -1396,4 +1393,3 @@ s[13] = (t_1210[(s[13] & 0xF0) + ((s[28] >> 4) & 0x0F)] & 0xF0) | (t_1210[((s[13
 s[14] = (t_1211[(s[14] & 0xF0) + ((s[27] >> 4) & 0x0F)] & 0xF0) | (t_1211[((s[14] & 0x0F) << 4) + (s[27] & 0x0F)] & 0x0F);
 s[15] = (t_1212[(s[15] & 0xF0) + ((s[26] >> 4) & 0x0F)] & 0xF0) | (t_1212[((s[15] & 0x0F) << 4) + (s[26] & 0x0F)] & 0x0F);
 
-printf("fin, apres erreur");
