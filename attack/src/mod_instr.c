@@ -801,9 +801,6 @@ s[15] = (t_671[(s[18] & 0xF0) + ((s[15] >> 4) & 0x0F)] & 0xF0) | (t_671[((s[18] 
    - one other made with 21..42
 */
 
-/* For the attack ,error has to be injected HERE */
-/* byte_error_1 and byte_error_2 has been created in the beginning of the main */
-/* byte_error_1 is for the normal state, byte_error_2 is for the mirror state */
 
 
 s[16] = t_672[s[1]];
@@ -856,6 +853,10 @@ s[24] = t_713[s[17]];
 s[23] = t_714[s[18]];
 s[22] = t_715[s[19]];
 s[21] = t_716[s[20]];
+
+/* For the attack ,error has to be injected HERE */
+/* byte_error_1 and byte_error_2 has been created in the beginning of the main */
+/* byte_error_1 is for the normal state, byte_error_2 is for the mirror state */
 
 /* label_error */
 /* The error is added here */

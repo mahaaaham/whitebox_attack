@@ -170,8 +170,8 @@ main (int argc, char *argv[])
       input_column[0] = value;
       mix_column(input_column, output_column);
 
-      result[value] = (((uint32_t)output_column[3]) << 12) + (((uint32_t)output_column[2]) << 8)
-	       + (((uint32_t)output_column[1]) << 4) + (uint32_t)output_column[0];
+      result[value] = (((uint32_t)output_column[3]) << 24) + (((uint32_t)output_column[2]) << 16)
+	       + (((uint32_t)output_column[1]) << 8) + (uint32_t)output_column[0];
     }
   /* sort of the array */
   qsort (result, 256, sizeof(uint32_t), compare);
@@ -179,8 +179,8 @@ main (int argc, char *argv[])
   /* writing of the array */
   for (int value = 0; value < 128; ++value)
     {
-	fprintf (fd, " %" PRIu32 ",", result[2*value]);
-	fprintf (fd, " %" PRIu32 ",\n", result[2*value+1]);
+	fprintf (fd, " 0x%"PRIx32 ",", result[2*value]);
+	fprintf (fd, " 0x%"PRIx32 ",\n", result[2*value+1]);
     }
   fprintf (fd, "};\n\n");
 
@@ -197,8 +197,8 @@ main (int argc, char *argv[])
     {
       input_column[1] = value;
       mix_column(input_column, output_column);
-      result[value] = (((uint32_t)output_column[3]) << 12) + (((uint32_t)output_column[2]) << 8)
-	       + (((uint32_t)output_column[1]) << 4) + (uint32_t)output_column[0];
+      result[value] = (((uint32_t)output_column[3]) << 24) + (((uint32_t)output_column[2]) << 16)
+	       + (((uint32_t)output_column[1]) << 8) + (uint32_t)output_column[0];
     }
   /* sort of the array */
   qsort (result, 256, sizeof(uint32_t), compare);
@@ -206,8 +206,8 @@ main (int argc, char *argv[])
   /* writing of the array */
   for (int value = 0; value < 128; ++value)
     {
-	fprintf (fd, " %" PRIu32 ",", result[2*value]);
-	fprintf (fd, " %" PRIu32 ",\n", result[2*value + 1]);
+	fprintf (fd, " 0x%"PRIx32 ",", result[2*value]);
+	fprintf (fd, " 0x%"PRIx32 ",\n", result[2*value + 1]);
     }
   fprintf (fd, "};\n\n");
 
@@ -223,8 +223,8 @@ main (int argc, char *argv[])
     {
       input_column[2] = value;
       mix_column(input_column, output_column);
-      result[value] = (((uint32_t)output_column[3]) << 12) + (((uint32_t)output_column[2]) << 8)
-	       + (((uint32_t)output_column[1]) << 4) + (uint32_t)output_column[0];
+      result[value] = (((uint32_t)output_column[3]) << 24) + (((uint32_t)output_column[2]) << 16)
+	       + (((uint32_t)output_column[1]) << 8) + (uint32_t)output_column[0];
     }
   /* sort of the array */
   qsort (result, 256, sizeof(uint32_t), compare);
@@ -232,8 +232,8 @@ main (int argc, char *argv[])
   /* writing of the array */
   for (int value = 0; value < 128; ++value)
     {
-	fprintf (fd, " %" PRIu32 ",", result[2*value]);
-	fprintf (fd, " %" PRIu32 ",\n", result[2*value + 1]);
+	fprintf (fd, " 0x%"PRIx32 ",", result[2*value]);
+	fprintf (fd, " 0x%"PRIx32 ",\n", result[2*value + 1]);
     }
   fprintf (fd, "};\n\n");
   
@@ -251,8 +251,8 @@ main (int argc, char *argv[])
     {
       input_column[3] = value;
       mix_column(input_column, output_column);
-      result[value] = (((uint32_t)output_column[3]) << 12) + (((uint32_t)output_column[2]) << 8)
-	       + (((uint32_t)output_column[1]) << 4) + (uint32_t)output_column[0];
+      result[value] = (((uint32_t)output_column[3]) << 24) + (((uint32_t)output_column[2]) << 16)
+	       + (((uint32_t)output_column[1]) << 8) + (uint32_t)output_column[0];
     }
   /* sort of the array */
   qsort (result, 256, sizeof(uint32_t), compare);
@@ -260,8 +260,8 @@ main (int argc, char *argv[])
   /* writing of the array */
   for (int value = 0; value < 128; ++value)
     {
-	fprintf (fd, " %" PRIu32 ",", result[2*value]);
-	fprintf (fd, " %" PRIu32 ",\n", result[2*value + 1]);
+	fprintf (fd, " 0x%"PRIx32 ",", result[2*value]);
+	fprintf (fd, " 0x%"PRIx32 ",\n", result[2*value + 1]);
     }
   fprintf (fd, "};\n\n");
 
