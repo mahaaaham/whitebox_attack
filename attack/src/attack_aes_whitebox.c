@@ -176,7 +176,7 @@ main (int argc, char **argv)
   byte_error_2 = random_byte ();
 
   sprintf(error_1, "%d", byte_error_1);
-  sprintf(error_2, "%d", byte_error_1);
+  sprintf(error_2, "%d", byte_error_2);
 
   strcat(path_1, error_1);
   strcat(path_1, "_");
@@ -264,10 +264,10 @@ main (int argc, char **argv)
 
 		  if (to_find_in_dtable_int == done[ind_sort])
 		     {
-		       fprintf (fd_1, "{0x%02hhx, ", (uint8_t)to_find_in_dtable[0]);
-		       fprintf (fd_1, " 0x%02hhx, ", (uint8_t)to_find_in_dtable[1]);
-		       fprintf (fd_1, " 0x%02hhx, ", (uint8_t)to_find_in_dtable[2]);
-		       fprintf (fd_1, " 0x%02hhx}\n, ", (uint8_t)to_find_in_dtable[3]);
+		       fprintf (fd_1, "{0x%02hhx, ", (uint8_t)key_i);
+		       fprintf (fd_1, " 0x%02hhx, ", (uint8_t)key_j);
+		       fprintf (fd_1, " 0x%02hhx, ", (uint8_t)key_k);
+		       fprintf (fd_1, " 0x%02hhx}\n, ", (uint8_t)key_l);
 		       found = true;
 		       cpt_written++;
 		     }
@@ -299,6 +299,7 @@ main (int argc, char **argv)
 	} /* key_j */
     } /* key_i */
     fprintf (fd_1, "}\n\n ");
+    fclose(fd_1);
 
 
   /* /1* Try to find K4, K11, K14, K1 (with error in column 2) *1/ */
@@ -334,10 +335,10 @@ main (int argc, char **argv)
 
 		  if (to_find_in_dtable_int == dtwo[ind_sort])
 		     {
-		       fprintf (fd_2, "{0x%02hhx, ", (uint8_t)to_find_in_dtable[0]);
-		       fprintf (fd_2, " 0x%02hhx, ", (uint8_t)to_find_in_dtable[1]);
-		       fprintf (fd_2, " 0x%02hhx, ", (uint8_t)to_find_in_dtable[2]);
-		       fprintf (fd_2, " 0x%02hhx}\n, ", (uint8_t)to_find_in_dtable[3]);
+		       fprintf (fd_2, "{0x%02hhx, ", (uint8_t)key_i);
+		       fprintf (fd_2, " 0x%02hhx, ", (uint8_t)key_j);
+		       fprintf (fd_2, " 0x%02hhx, ", (uint8_t)key_k);
+		       fprintf (fd_2, " 0x%02hhx}\n, ", (uint8_t)key_l);
 		       found = true;
 		       cpt_written++;
 		     }
@@ -347,7 +348,6 @@ main (int argc, char **argv)
 		    {
 		      fprintf (fd_2, "Rien de trouvé durant les %d premiers essais.", max_without_found);
 		      fprintf (stderr, "Rien de trouvé durant les %d premiers essais.", max_without_found);
-		      fclose(fd_1);
 		      fclose(fd_2);
 		      fclose(fd_3);
 		      fclose(fd_4);
@@ -358,7 +358,6 @@ main (int argc, char **argv)
 		      fprintf (fd_2, "};\n \n trop d'éléments écrits!\n");
 		      fprintf (stderr, "};\n \n trop d'éléments écrits!\n");
 		      cpt_written = 0;
-		      fclose(fd_1);
 		      fclose(fd_2);
 		      fclose(fd_3);
 		      fclose(fd_4);
@@ -368,6 +367,8 @@ main (int argc, char **argv)
 	    } /* key_k */
 	} /* key_j */
     } /* key_i */
+  fprintf (fd_2, "}\n\n ");
+  fclose(fd_2);
 
   /* /1* Try to find K8, K15, K2, K5 (with error in column 3) *1/ */
 
@@ -402,10 +403,10 @@ main (int argc, char **argv)
 
 		  if (to_find_in_dtable_int == dthree[ind_sort])
 		     {
-		       fprintf (fd_3, "{0x%02hhx, ", (uint8_t)to_find_in_dtable[0]);
-		       fprintf (fd_3, " 0x%02hhx, ", (uint8_t)to_find_in_dtable[1]);
-		       fprintf (fd_3, " 0x%02hhx, ", (uint8_t)to_find_in_dtable[2]);
-		       fprintf (fd_3, " 0x%02hhx}\n, ", (uint8_t)to_find_in_dtable[3]);
+		       fprintf (fd_3, "{0x%02hhx, ", (uint8_t)key_i);
+		       fprintf (fd_3, " 0x%02hhx, ", (uint8_t)key_j);
+		       fprintf (fd_3, " 0x%02hhx, ", (uint8_t)key_k);
+		       fprintf (fd_3, " 0x%02hhx}\n, ", (uint8_t)key_l);
 		       found = true;
 		       cpt_written++;
 		     }
@@ -415,8 +416,6 @@ main (int argc, char **argv)
 		    {
 		      fprintf (fd_3, "Rien de trouvé durant les %d premiers essais.", max_without_found);
 		      fprintf (stderr, "Rien de trouvé durant les %d premiers essais.", max_without_found);
-		      fclose(fd_1);
-		      fclose(fd_2);
 		      fclose(fd_3);
 		      fclose(fd_4);
 		      goto try_again;
@@ -426,8 +425,6 @@ main (int argc, char **argv)
 		      fprintf (fd_3, "};\n \n trop d'éléments écrits!\n");
 		      fprintf (stderr, "};\n \n trop d'éléments écrits!\n");
 		      cpt_written = 0;
-		      fclose(fd_1);
-		      fclose(fd_2);
 		      fclose(fd_3);
 		      fclose(fd_4);
 		      goto try_again;
@@ -437,6 +434,8 @@ main (int argc, char **argv)
 	    } /* key_k */
 	} /* key_j */
     } /* key_i */
+  fprintf (fd_3, "}\n\n ");
+  fclose(fd_3);
 
   /* /1* Try to find K12, K3, K6, K9 (with error in column 4) *1/ */
 
@@ -471,10 +470,10 @@ main (int argc, char **argv)
 
 		  if (to_find_in_dtable_int == dfour[ind_sort])
 		     {
-		       fprintf (fd_4, "{0x%02hhx, ", (uint8_t)to_find_in_dtable[0]);
-		       fprintf (fd_4, " 0x%02hhx, ", (uint8_t)to_find_in_dtable[1]);
-		       fprintf (fd_4, " 0x%02hhx, ", (uint8_t)to_find_in_dtable[2]);
-		       fprintf (fd_4, " 0x%02hhx}\n, ", (uint8_t)to_find_in_dtable[3]);
+		       fprintf (fd_4, "{0x%02hhx, ", (uint8_t)key_i);
+		       fprintf (fd_4, " 0x%02hhx, ", (uint8_t)key_j);
+		       fprintf (fd_4, " 0x%02hhx, ", (uint8_t)key_k);
+		       fprintf (fd_4, " 0x%02hhx}\n, ", (uint8_t)key_l);
 		       found = true;
 		       cpt_written++;
 		     }
@@ -484,9 +483,6 @@ main (int argc, char **argv)
 		    {
 		      fprintf (fd_4, "Rien de trouvé durant les %d premiers essais.", max_without_found);
 		      fprintf (stderr, "Rien de trouvé durant les %d premiers essais.", max_without_found);
-		      fclose(fd_1);
-		      fclose(fd_2);
-		      fclose(fd_3);
 		      fclose(fd_4);
 		      goto try_again;
 		    }
@@ -495,9 +491,6 @@ main (int argc, char **argv)
 		      fprintf (fd_4, "};\n \n trop d'éléments écrits!\n");
 		      fprintf (stderr, "};\n \n trop d'éléments écrits!\n");
 		      cpt_written = 0;
-		      fclose(fd_1);
-		      fclose(fd_2);
-		      fclose(fd_3);
 		      fclose(fd_4);
 		      goto try_again;
 		    }
@@ -506,6 +499,8 @@ main (int argc, char **argv)
 	    } /* key_k */
 	} /* key_j */
     } /* key_i */
+  fprintf (fd_4, "}\n\n ");
+  fclose(fd_4);
 
   goto try_again;
 
