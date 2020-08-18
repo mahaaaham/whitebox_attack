@@ -26,11 +26,16 @@ static int32_t compare (void const *a, void const *b)
 {
    /* definir des pointeurs type's et initialise's
       avec les parametres */
-   int32_t const *pa = a;
-   int32_t const *pb = b;
+   uint32_t const *pa = a;
+   uint32_t const *pb = b;
  
    /* evaluer et retourner l'etat de l'evaluation (tri croissant) */
-   return *pa - *pb;
+   if (*pa < *pb)
+     return (-1);
+   if (*pa == *pb)
+     return 0;
+   else
+     return 1;
 }
 
 /* Thanks to wikipedia "Finite Field Arithmetic" article */
@@ -136,7 +141,7 @@ column_alloc ()
 int
 main (int argc, char *argv[])
 {
-  int32_t result[256]; /* hold the number that are written in the arrays */
+  uint32_t result[256]; /* hold the number that are written in the arrays */
   for (int i = 0; i < 256; i++)
     result[i] = 0; 
 
@@ -164,7 +169,7 @@ main (int argc, char *argv[])
     }
 
   /* computation and writing of done */
-  fprintf (fd, "uint32_t done[256] = { ");
+  fprintf (fd, "uint32_t done[256] = { \n");
   for (int value = 0; value < 256; ++value)
     {
       input_column[0] = value;
@@ -192,7 +197,7 @@ main (int argc, char *argv[])
 
 
   /* computation and writing of dtwo */
-  fprintf (fd, "uint32_t dtwo[256] = { ");
+  fprintf (fd, "uint32_t dtwo[256] = { \n");
   for (int value = 0; value <  256; ++value)
     {
       input_column[1] = value;
@@ -211,12 +216,13 @@ main (int argc, char *argv[])
     }
   fprintf (fd, "};\n\n");
 
-  input_column[1] = 0;
   for (int value = 0; value < 256; ++value)
     {
       result[value] = 0;
     }
 
+  input_column[0] = 0;
+  input_column[1] = 0;
   /* computation and writing of dthree */
   fprintf (fd, "uint32_t dthree[256] = {\n");
   for (int value = 0; value < 256; ++value)
@@ -237,6 +243,8 @@ main (int argc, char *argv[])
     }
   fprintf (fd, "};\n\n");
   
+  input_column[0] = 0;
+  input_column[1] = 0;
   input_column[2] = 0;
   for (int value = 0; value < 256; ++value)
     {
