@@ -28,23 +28,19 @@ uint8_t byte_error_2;
 int max_without_found = 9999999;
 int max_written_element = 1000;
 int max_nb_try = 1000;
+uint8_t input_1_square[4][4] = {{0, 1, 2, 3} ,{4, 5 ,6 ,7} , {8, 9, 10, 11}, {12, 13, 14, 15}};
+uint8_t input_1_line[16] = {0, 4, 8, 12, 1, 5, 9, 13, 2, 6, 10, 14, 3, 7, 11, 15};
+uint8_t buffer[16]; 
 
 
-bool test_key(uint8_t key[16])
+bool test_key(uint8_t last_key[16])
 {
-  uint8_t input_1_square[4][4] = {{0, 1, 2, 3} ,{4, 5 ,6 ,7} , {8, 9, 10, 11}, {12, 13, 14, 15}};
-
   uint8_t test_state_1[4][4];
-  uint8_t buffer[16];
 
   uint8_t key_schedule[16 * 11];
-  key_expansion (key, key_schedule);
+  last_key_expansion(key_schedule, last_key);
 
   cipher (test_state_1, input_1_square, key_schedule);
-
-  /* WARNING: the included code have to act on "buffer" */
-  #include "instr.c"
-  /* #include "clear_instr.c" */
 
   for (int i = 0; i < 4; i++)
     for (int j = 0; j < 4; j++)
@@ -56,8 +52,20 @@ bool test_key(uint8_t key[16])
   return true;
 }
 
-int exhaustive_search(char *path_result)
+int
+main (int argc, char **argv)
 {
+  test_mix_column();
+  for (int i = 0; i < 16; i++)
+    buffer[i] = input_1_line[i];
+
+  /* WARNING: the included code have to act on "buffer" */
+  #include "instr.c"
+  /* buffer contain now the cipher of input_1_line by the secret key */
+
+  char *path_result = "result_key";
+  /* test_inv_key_expansion(); */
+
   FILE *f_result = fopen (path_result, "w"); /* The file were we write the array */
   if (!f_result)
     {
@@ -105,8 +113,7 @@ int exhaustive_search(char *path_result)
 		  possible_last_key[6] = chunk_4[l][2];
 		  possible_last_key[3] = chunk_4[l][3];
 
-		  inv_key_expansion(possible_key, possible_last_key);
-		  is_key = test_key(possible_key);
+		  is_key = test_key(possible_last_key);
 		  if (is_key == true)
 		    {
 		      fprintf(stderr, "Key has been found!");
@@ -120,14 +127,5 @@ int exhaustive_search(char *path_result)
 	    }
 	}
     }
-  return EXIT_SUCCESS;
-}
-
-int
-main (int argc, char **argv)
-{
-  char *path_result = "result_key";
-  /* test_inv_key_expansion(); */
-  exhaustive_search(path_result);
   return EXIT_SUCCESS;
 }

@@ -205,6 +205,56 @@ inv_key_expansion (uint8_t key[16], uint8_t last_key[16])
   return;
 }
 
+void last_key_expansion(uint8_t key_schedule[16*11], uint8_t last_key[16])
+{
+  for (int j = 0; j < 16 * 11; j++)
+    {
+      key_schedule [j] = 0;
+    }
+
+  uint8_t tmp[4];
+  /* We set the last_key in the last position of key_schedule */
+  for (int j = 0; j < 16; j++)
+    {
+      key_schedule [(10 * 16) + j] = last_key [j];
+      /* fprintf(stderr, "Ox%x ", key_schedule [(10 * 16) + j]); */
+    }
+  /* fprintf(stderr, "\n"); */
+
+  /* We set i as the number of the word to compute. There is 4*11 WORD and we
+     already set the four last one, so we set: */
+  int i = 10 * 4 - 1; 
+  while (i >= 0)
+    {
+
+      /* i is the number of the word we want to compute */
+      /* we take the word i + 3 */
+      tmp[0] = key_schedule [(i+3) * WORD];
+      tmp[1] = key_schedule [(i+3) * WORD + 1];
+      tmp[2] = key_schedule [(i+3) * WORD + 2];
+      tmp[3] = key_schedule [(i+3) * WORD + 3];
+
+      /* We apply a fonction of the word i+3 */
+      if ((i) % 4 == 0)
+	{
+	  rot_word (tmp);
+	  sub_word (tmp); 
+	  tmp[0] ^= rcon[(i+4) / NK];
+	}
+
+      /* Creation of the word  i using key_schedule on word i-1 (tmp) and
+      the word i-4: 
+			  W_i = W_(i+4) + F(W_(i+3))  */
+      key_schedule [i * WORD ] = key_schedule [(i + 4) * WORD] ^ tmp[0]; 
+      key_schedule [i * WORD + 1] = key_schedule [(i + 4) * WORD + 1] ^ tmp[1];
+      key_schedule [i * WORD + 2] = key_schedule [(i + 4) * WORD + 2] ^ tmp[2];
+      key_schedule [i * WORD + 3] = key_schedule [(i + 4) * WORD + 3] ^ tmp[3];
+      i--;
+    }
+
+  return;
+}
+
 void test_inv_key_expansion()
 {
 uint8_t key[16] = 

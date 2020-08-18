@@ -1,7 +1,7 @@
 INCLUDE = ../include
 
 # Compilation flags.
-CFLAGS = -std=c11 -Wall -Wextra
+CFLAGS = -std=c11 -Wall -Wextra -O3
 CPPFLAGS = -I$(INCLUDE)
 DEBUGFLAGS = -g
 
