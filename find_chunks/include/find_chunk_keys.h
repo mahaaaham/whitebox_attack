@@ -1,4 +1,5 @@
-#ifndef FIND_CHUNK_KEYS_H
-#define FIND_CHUNK_KEYS_H
+#ifndef SIMPLE_FIND_CHUNK_KEYS_H
+#define SIMPLE_FIND_CHUNK_KEYS_H
 
-#endif /* FIND_CHUNK_KEYS */
+
+#endif /* SIMPLE_FIND_CHUNK_KEYS */

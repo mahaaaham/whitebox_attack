@@ -1,4 +1,6 @@
-﻿/* Rounds are marked by "ROUND X" (X between 1 and 10). */
+﻿uint8_t s[42];
+memcpy(s, buffer, 16);
+/* Rounds are marked by "ROUND X" (X between 1 and 10). */
 /* s is made of 32 nibbles */
 
 /* only t_0 until t_24, so 12 octets: it is the size of the message. */
@@ -1375,3 +1377,5 @@ s[12] = (t_1209[(s[12] & 0xF0) + ((s[29] >> 4) & 0x0F)] & 0xF0) | (t_1209[((s[12
 s[13] = (t_1210[(s[13] & 0xF0) + ((s[28] >> 4) & 0x0F)] & 0xF0) | (t_1210[((s[13] & 0x0F) << 4) + (s[28] & 0x0F)] & 0x0F);
 s[14] = (t_1211[(s[14] & 0xF0) + ((s[27] >> 4) & 0x0F)] & 0xF0) | (t_1211[((s[14] & 0x0F) << 4) + (s[27] & 0x0F)] & 0x0F);
 s[15] = (t_1212[(s[15] & 0xF0) + ((s[26] >> 4) & 0x0F)] & 0xF0) | (t_1212[((s[15] & 0x0F) << 4) + (s[26] & 0x0F)] & 0x0F);
+
+memcpy(buffer, s, 16); // write the output on buffer

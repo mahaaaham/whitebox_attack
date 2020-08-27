@@ -1,4 +1,4 @@
-#include "simple_find_chunk_keys.h"
+#include "find_chunk_keys.h"
 
 #include "tables.h"
 #include "dtables.h"
@@ -32,7 +32,7 @@ encrypt (uint8_t *buffer)
 
   /* WARNING: the included code have to act on "buffer" */
   /* #include "instr.c" */
-  #include "clear_instr.c"
+  #include "instr.c"
 
   return;
 }
@@ -81,21 +81,26 @@ main ()
   char error_1[10];
   char error_2[10];
 
+  byte_error_1 = random_byte ();
+  byte_error_2 = 0;
+
   try_again: 
   nb_try++;
-  if (nb_try > max_nb_try-1)
+  if (nb_try > 256)
     {
       goto exit_program;
     }
+  if (nb_try != 1)
+    {
+      byte_error_2++;
+    }
 
   /* Creation of the four files */
-  strcpy(path_1, "simple_chunk_key/chunk1_");
-  strcpy(path_2, "simple_chunk_key/chunk2_");
-  strcpy(path_3, "simple_chunk_key/chunk3_");
-  strcpy(path_4, "simple_chunk_key/chunk4_");
+  strcpy(path_1, "chunk_key/chunk1_");
+  strcpy(path_2, "chunk_key/chunk2_");
+  strcpy(path_3, "chunk_key/chunk3_");
+  strcpy(path_4, "chunk_key/chunk4_");
 
-  byte_error_1 = random_byte ();
-  byte_error_2 = random_byte ();
 
   sprintf(error_1, "%2x", byte_error_1);
   sprintf(error_2, "%2x", byte_error_2);
@@ -157,12 +162,8 @@ main ()
 
   /* normal encrypt and encrypt with error added */
   encrypt (state);
-  fprintf(stderr, "State after encrypt:\n");
-  print_state(state);
 
   mod_encrypt (mod_state);
-  fprintf(stderr, "mod_state after mod_encrypt:\n");
-  print_state(mod_state);
 
   /* Try to find K0, K7, K10, K13 (with error in column 1) */
   cpt_found = 0;
@@ -185,41 +186,15 @@ main ()
 	    {
 	      for (int key_l = 0; key_l < 256; key_l++)
 		{
-
-		  /* key_i = last_key[0]; // to suppress */
-		  /* key_j = last_key[13]; // to suppress */
-		  /* key_k = last_key[10]; // to suppress */
-		  /* key_l = last_key[7]; // to suppress */
-
-		  /* fprintf(stderr, "Good key i, j, k and l are: \n"); */
-		  /* fprintf(stderr, " %d ", key_i); */
-		  /* fprintf(stderr, " %d ", key_j); */
-		  /* fprintf(stderr, " %d ", key_k); */
-		  /* fprintf(stderr, " %d \n\n", key_l); */
-
-
-		  /* fprintf(stderr, "state AND mod_state 0:  0x%x    0x%x  \n", state[0], mod_state[0]); */
-		  /* fprintf(stderr, "state AND mod_state 0:  0x%x    0x%x  \n", state[13], mod_state[13]); */
-		  /* fprintf(stderr, "state AND mod_state 0:  0x%x    0x%x  \n", state[10], mod_state[10]); */
-		  /* fprintf(stderr, "state AND mod_state 0:  0x%x    0x%x  \n\n", state[7], mod_state[7]); */
-
 		  cpt_found++;
 		  to_find_in_dtable[0] = compute_difference(state[0], mod_state[0],(uint8_t) key_i);
 		  to_find_in_dtable[1] = compute_difference(state[13], mod_state[13],(uint8_t) key_j);
 		  to_find_in_dtable[2] = compute_difference(state[10], mod_state[10],(uint8_t) key_k);
 		  to_find_in_dtable[3] = compute_difference(state[7], mod_state[7],(uint8_t) key_l);
 
-		  /* fprintf(stderr, "The to_find_in_dtables are\n"); */
-		  /* fprintf(stderr, " 0x%x ", to_find_in_dtable[0]); */
-		  /* fprintf(stderr, " 0x%x ", to_find_in_dtable[1]); */
-		  /* fprintf(stderr, " 0x%x ", to_find_in_dtable[2]); */
-		  /* fprintf(stderr, " 0x%x \n\n", to_find_in_dtable[3]); */
-
 		  to_find_in_dtable_int = (((uint32_t)to_find_in_dtable[3]) << 24) + (((uint32_t)to_find_in_dtable[2]) << 16)
 					 + (((uint32_t)to_find_in_dtable[1]) << 8) + (uint32_t)to_find_in_dtable[0];
 
-		  /* fprintf(stderr, "to_find_in_table_int: 0x%x", to_find_in_dtable_int); // to suppress */
-		  /* return EXIT_SUCCESS; // to suppress */
 
 		  ind_sort = 0;
 		  if (to_find_in_dtable_int >= done[ind_sort+128]) ind_sort += 128;
@@ -230,10 +205,6 @@ main ()
 		  if (to_find_in_dtable_int >= done[ind_sort+  4]) ind_sort +=   4;
 		  if (to_find_in_dtable_int >= done[ind_sort+  2]) ind_sort +=   2;
 		  if (to_find_in_dtable_int >= done[ind_sort+  1]) ind_sort +=   1;
-
-		  /* fprintf(stderr, "\nind_sort is: %d\n", ind_sort); // to suppress */
-		  /* fprintf(stderr, "\ndone[ind_sort] is : 0x%x\n", done[ind_sort]); // to suppress */
-		  /* return EXIT_SUCCESS; // to suppress */
 		  if (to_find_in_dtable_int == done[ind_sort])
 		     {
 		       fprintf (fd_1, "{0x%02hhx, ", (uint8_t)key_i);
@@ -244,21 +215,6 @@ main ()
 		       cpt_written++;
 		     }
 
-		  /* Treatment of unwanted cases */
-		  /* if ((cpt_found > max_without_found) && (found == false)) */
-		  /*   { */
-		  /*     fprintf(fd_1, "EMPTY"); */
-		  /*     fprintf(fd_2, "EMPTY"); */
-		  /*     fprintf(fd_3, "EMPTY"); */
-		  /*     fprintf(fd_4, "EMPTY"); */
-
-		  /*     fprintf (stderr, "Rien de trouvé durant les %d premiers essais.", max_without_found); */
-		  /*     fclose(fd_1); */
-		  /*     fclose(fd_2); */
-		  /*     fclose(fd_3); */
-		  /*     fclose(fd_4); */
-		  /*     goto try_again; */
-		  /*   } */
 		  if (cpt_written > max_written_element)
 		    {
 		      fprintf (fd_1, "};\n \n trop d'éléments écrits!\n");
@@ -319,20 +275,6 @@ main ()
 		       cpt_written++;
 		     }
 
-		  /* Treatment of unwanted cases */
-		  /* if ((cpt_found > max_without_found) && (found == false)) */
-		  /*   { */
-		  /*     fprintf (stderr, "Rien de trouvé durant les %d premiers essais.", max_without_found); */
-
-		  /*     fprintf(fd_2, "EMPTY"); */
-		  /*     fprintf(fd_3, "EMPTY"); */
-		  /*     fprintf(fd_4, "EMPTY"); */
-
-		  /*     fclose(fd_2); */
-		  /*     fclose(fd_3); */
-		  /*     fclose(fd_4); */
-		  /*     goto try_again; */
-		  /*   } */
 		  if (cpt_written > max_written_element)
 		    {
 		      fprintf (fd_2, "};\n \n trop d'éléments écrits!\n");
@@ -391,17 +333,6 @@ main ()
 		       cpt_written++;
 		     }
 
-		  /* Treatment of unwanted cases */
-		  /* if ((cpt_found > max_without_found) && (found == false)) */
-		  /*   { */
-		  /*     fprintf (stderr, "Rien de trouvé durant les %d premiers essais.", max_without_found); */
-
-		  /*     fprintf(fd_3, "EMPTY"); */
-		  /*     fprintf(fd_4, "EMPTY"); */
-		  /*     fclose(fd_3); */
-		  /*     fclose(fd_4); */
-		  /*     goto try_again; */
-		  /*   } */
 		  if (cpt_written > max_written_element)
 		    {
 		      fprintf (fd_3, "};\n \n trop d'éléments écrits!\n");
@@ -460,14 +391,6 @@ main ()
 		       cpt_written++;
 		     }
 
-		  /* Treatment of unwanted cases */
-		  /* if ((cpt_found > max_without_found) && (found == false)) */
-		  /*   { */
-		  /*     fprintf(fd_4, "EMPTY"); */
-		  /*     fprintf (stderr, "Rien de trouvé durant les %d premiers essais.", max_without_found); */
-		  /*     fclose(fd_4); */
-		  /*     goto try_again; */
-		  /*   } */
 		  if (cpt_written > max_written_element)
 		    {
 		      fprintf (fd_4, "};\n \n trop d'éléments écrits!\n");

@@ -10,21 +10,13 @@ SRC = src
 # Rules and targets
 all: build
 
-simple:  
-	$(MAKE) -C $(SRC) simple
-	cp $(SRC)/simple_find_chunk_keys  simple_find_chunk_keys
-
-double:  
-	$(MAKE) -C $(SRC) double
-	cp $(SRC)/double_find_chunk_keys  double_find_chunk_keys
 
 build:
 	$(MAKE) -C $(SRC) all
-	cp $(SRC)/double_find_chunk_keys  double_find_chunk_keys
-	cp $(SRC)/simple_find_chunk_keys  simple_find_chunk_keys
+	cp $(SRC)/find_chunk_keys  find_chunk_keys
 
 clean:
-	rm -f aes_whitebox double_find_chunk_key simple_find_chunk_keys find_key *~
+	rm -f aes_whitebox find_chunk_keys find_key *~
 	cd $(INCLUDE) && rm -f *~
 	$(MAKE) -C $(SRC) clean
 

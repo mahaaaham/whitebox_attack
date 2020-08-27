@@ -1,4 +1,0 @@
-#ifndef ATTACK_AES_WHITEBOX_H
-#define ATTACK_AES_WHITEBOX_H
-
-#endif /* ATTACK_AES_WHITEBOX */

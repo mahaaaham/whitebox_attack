@@ -1,9 +1,11 @@
-﻿/* Rounds are marked by "ROUND X" (X between 1 and 10). */
+﻿uint8_t s[42];
+memcpy(s, buffer, 16);
+/* Rounds are marked by "ROUND X" (X between 1 and 10). */
 /* s is made of 32 nibbles */
 
 /* only t_0 until t_24, so 12 octets: it is the size of the message. */
 
-/* label_error for where the error is inserted */
+/* go to label_error to find the injection of errors */
 
 
 /* ------------------------------------------------ */
@@ -796,12 +798,10 @@ s[15] = (t_671[(s[18] & 0xF0) + ((s[15] >> 4) & 0x0F)] & 0xF0) | (t_671[((s[18] 
 
 /* SHIFT ROW */
 
-/* There is anti-DFA mechanisme here (and next rounds), here operations are doubled:
+/* There is anti-DFA mechanism here (and next rounds), here operations are doubled:
    - one made with 0..20
    - one other made with 21..42
 */
-
-
 
 s[16] = t_672[s[1]];
 s[1] = t_673[s[5]];
@@ -854,16 +854,12 @@ s[23] = t_714[s[18]];
 s[22] = t_715[s[19]];
 s[21] = t_716[s[20]];
 
-/* For the attack ,error has to be injected HERE */
-/* byte_error_1 and byte_error_2 has been created in the beginning of the main */
-/* byte_error_1 is for the normal state, byte_error_2 is for the mirror state */
 
+
+/* The error has to be put here */
 /* label_error */
-/* The error is added here */
-/* modification of s[0] and its mirro s[41]*/
-s[0] = byte_error_1; /* normal state */
-s[41] = byte_error_2; /* mirror state */
-/* one chance on 256 that the medication of the byte is the same for the two!  */
+s[41] = byte_error_1;
+s[0] = byte_error_2;
 
 
 
@@ -935,8 +931,6 @@ s[18] = (t_781[(s[34] & 0xF0) + ((s[17] >> 4) & 0x0F)] & 0xF0) | (t_781[((s[34] 
 s[23] = (t_782[(s[7] & 0xF0) + ((s[24] >> 4) & 0x0F)] & 0xF0) | (t_782[((s[7] & 0x0F) << 4) + (s[24] & 0x0F)] & 0x0F);
 s[23] = t_783[s[23]];
 s[18] = t_784[s[18]];
-
-
 s[18] = (t_785[(s[16] & 0xF0) + ((s[18] >> 4) & 0x0F)] & 0xF0) | (t_785[((s[16] & 0x0F) << 4) + (s[18] & 0x0F)] & 0x0F);
 s[23] = (t_786[(s[25] & 0xF0) + ((s[23] >> 4) & 0x0F)] & 0xF0) | (t_786[((s[25] & 0x0F) << 4) + (s[23] & 0x0F)] & 0x0F);
 s[7] = (t_787[(s[23] & 0xF0) + ((s[7] >> 4) & 0x0F)] & 0xF0) | (t_787[((s[23] & 0x0F) << 4) + (s[7] & 0x0F)] & 0x0F);
@@ -1394,3 +1388,4 @@ s[13] = (t_1210[(s[13] & 0xF0) + ((s[28] >> 4) & 0x0F)] & 0xF0) | (t_1210[((s[13
 s[14] = (t_1211[(s[14] & 0xF0) + ((s[27] >> 4) & 0x0F)] & 0xF0) | (t_1211[((s[14] & 0x0F) << 4) + (s[27] & 0x0F)] & 0x0F);
 s[15] = (t_1212[(s[15] & 0xF0) + ((s[26] >> 4) & 0x0F)] & 0xF0) | (t_1212[((s[15] & 0x0F) << 4) + (s[26] & 0x0F)] & 0x0F);
 
+memcpy(buffer, s, 16); // write the output on buffer
